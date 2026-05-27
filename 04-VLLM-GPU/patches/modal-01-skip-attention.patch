@@ -1,0 +1,28 @@
+--- a/vllm/model_executor/models/qwen3_next.py
++++ b/vllm/model_executor/models/qwen3_next.py
+@@ -409,7 +409,13 @@ class Qwen3NextDecoderLayer(nn.Module):
+         self_attention_output = torch.empty_like(hidden_states)
+         if self.layer_type == "linear_attention":
+             self.linear_attn(
+                 hidden_states=hidden_states,
+                 output=self_attention_output,
+             )
+         elif self.layer_type == "full_attention":
+-            self.self_attn(
+-                hidden_states=hidden_states,
+-                output=self_attention_output,
+-                positions=positions,
+-            )
++            # Draft mode: skip attention, pass through hidden states.
++            # The DeltaNet layers carry the recurrent context;
++            # attention layers are only needed for verification.
++            if getattr(self, '_skip_attention', False):
++                self_attention_output.copy_(hidden_states)
++            else:
++                self.self_attn(
++                    hidden_states=hidden_states,
++                    output=self_attention_output,
++                    positions=positions,
++                )
+         else:
+             raise ValueError("Invalid layer_type")

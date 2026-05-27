@@ -1,0 +1,44 @@
+--- a/vllm/model_executor/models/qwen3_5.py
++++ b/vllm/model_executor/models/qwen3_5.py
+@@ -248,6 +248,40 @@ class Qwen3_5Model(Qwen3NextModel):
+ 
+         self.aux_hidden_state_layers: tuple[int, ...] = ()
+ 
++    def set_draft_mode(self, enabled: bool):
++        """Toggle draft mode: skip attention layers, run DeltaNet only."""
++        for layer in self.layers:
++            if hasattr(layer, 'layer_type') and layer.layer_type == "full_attention":
++                layer._skip_attention = enabled
++
++    def snapshot_deltanet_state(self) -> list[tuple[torch.Tensor, torch.Tensor]]:
++        """Snapshot DeltaNet conv + temporal state for all recurrent layers.
++
++        Returns a list of (conv_state_clone, ssm_state_clone) per layer.
++        Call before draft mode to preserve the verified state.
++        """
++        snapshots = []
++        for layer in self.layers:
++            if hasattr(layer, 'layer_type') and layer.layer_type == "linear_attention":
++                kv_cache = layer.linear_attn.kv_cache
++                conv_clone = kv_cache[0].clone()
++                ssm_clone = kv_cache[1].clone()
++                snapshots.append((conv_clone, ssm_clone))
++        return snapshots
++
++    def restore_deltanet_state(
++        self, snapshots: list[tuple[torch.Tensor, torch.Tensor]]
++    ):
++        """Restore DeltaNet state from a prior snapshot.
++
++        Call after draft mode, before verify, to reset recurrent
++        state to the last verified position.
++        """
++        idx = 0
++        for layer in self.layers:
++            if hasattr(layer, 'layer_type') and layer.layer_type == "linear_attention":
++                kv_cache = layer.linear_attn.kv_cache
++                kv_cache[0].copy_(snapshots[idx][0])
++                kv_cache[1].copy_(snapshots[idx][1])
++                idx += 1
++
+     def load_fused_expert_weights(

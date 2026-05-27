@@ -1,0 +1,11 @@
+# Build/runtime junk — none of this belongs in the distilled corpus
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+*.swp
+# Models / large binaries are referenced by path, never committed here
+*.gguf
+*.safetensors
+*.bin
+*.pt

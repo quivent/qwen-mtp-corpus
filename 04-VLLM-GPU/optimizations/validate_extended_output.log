@@ -1,0 +1,107 @@
+Loading model from /home/ubuntu/models/Huihui-Qwen3.5-27B-abliterated ...
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights:   0%|          | 0/851 [00:00<?, ?it/s]Loading weights:  71%|███████   | 601/851 [00:00<00:00, 5987.81it/s]Loading weights: 100%|██████████| 851/851 [00:00<00:00, 6056.68it/s]
+Model loaded in 1.7s
+Layers: 64 total, 16 full_attention, 48 deltanet/other
+Generating 100 tokens per prompt, 12 prompts
+==========================================================================================
+
+[1/12] "def merge_sort(arr):\n    ..."
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  verify done in 200.9s
+  draft done in 149.7s
+  Match: 100/100 (100.0%)  |  First divergence: NONE (perfect match)
+  Time: verify=200.9s  draft=149.7s
+
+[2/12] "function debounce(fn, delay) {\n  ..."
+  verify done in 176.9s
+  draft done in 179.0s
+  Match: 100/100 (100.0%)  |  First divergence: NONE (perfect match)
+  Time: verify=176.9s  draft=179.0s
+
+[3/12] "Solve step by step: If a train travels at 60 mph for 2.5 hou..."
+  verify done in 196.8s
+  draft done in 155.1s
+  Match: 100/100 (100.0%)  |  First divergence: NONE (perfect match)
+  Time: verify=196.8s  draft=155.1s
+
+[4/12] "What is the derivative of f(x) = x^3 * ln(x)? Show your work..."
+  verify done in 140.1s
+  draft done in 160.8s
+  Match: 100/100 (100.0%)  |  First divergence: NONE (perfect match)
+  Time: verify=140.1s  draft=160.8s
+
+[5/12] "The last human on Earth sat alone in a room. There was a kno..."
+  verify done in 150.5s
+  draft done in 132.2s
+  Match: 100/100 (100.0%)  |  First divergence: NONE (perfect match)
+  Time: verify=150.5s  draft=132.2s
+
+[6/12] "Write a haiku about the ocean:\n..."
+  verify done in 56.7s
+  draft done in 56.9s
+  Match: 46/46 (100.0%)  |  First divergence: NONE (perfect match)
+  Time: verify=56.7s  draft=56.9s
+
+[7/12] "What are the three laws of thermodynamics? Briefly explain e..."
+  verify done in 125.4s
+  draft done in 127.7s
+  Match: 100/100 (100.0%)  |  First divergence: NONE (perfect match)
+  Time: verify=125.4s  draft=127.7s
+
+[8/12] "Name the planets in our solar system in order from the Sun:..."
+  verify done in 131.7s
+  draft done in 134.9s
+  Match: 100/100 (100.0%)  |  First divergence: NONE (perfect match)
+  Time: verify=131.7s  draft=134.9s
+
+[9/12] "<|im_start|>user\nWhat is photosynthesis?<|im_end|>\n<|im_star..."
+  verify done in 138.0s
+  draft done in 168.3s
+  Match: 100/100 (100.0%)  |  First divergence: NONE (perfect match)
+  Time: verify=138.0s  draft=168.3s
+
+[10/12] "<|im_start|>user\nExplain recursion to a 5 year old.<|im_end|..."
+  verify done in 151.3s
+  draft done in 141.2s
+  Match: 100/100 (100.0%)  |  First divergence: NONE (perfect match)
+  Time: verify=151.3s  draft=141.2s
+
+[11/12] "用中文解释什么是人工智能：..."
+  verify done in 140.8s
+  draft done in 139.6s
+  Match: 100/100 (100.0%)  |  First divergence: NONE (perfect match)
+  Time: verify=140.8s  draft=139.6s
+
+[12/12] "Expliquez en français le concept de la relativité générale:..."
+  verify done in 145.6s
+  draft done in 144.1s
+  Match: 100/100 (100.0%)  |  First divergence: NONE (perfect match)
+  Time: verify=145.6s  draft=144.1s
+
+==========================================================================================
+SUMMARY
+==========================================================================================
+Prompts tested: 12
+Tokens per prompt: 100
+Overall match rate: 1146/1146 (100.00%)
+Perfect match prompts: 12/12
+
+#    Match%  Matches  1st Div  Prompt
+------------------------------------------------------------------------------------------
+1    100.0%  100/100         -  def merge_sort(arr):\n    
+2    100.0%  100/100         -  function debounce(fn, delay) {\n  
+3    100.0%  100/100         -  Solve step by step: If a train travels at 60 mph for 2.
+4    100.0%  100/100         -  What is the derivative of f(x) = x^3 * ln(x)? Show your
+5    100.0%  100/100         -  The last human on Earth sat alone in a room. There was 
+6    100.0%   46/46          -  Write a haiku about the ocean:\n
+7    100.0%  100/100         -  What are the three laws of thermodynamics? Briefly expl
+8    100.0%  100/100         -  Name the planets in our solar system in order from the 
+9    100.0%  100/100         -  <|im_start|>user\nWhat is photosynthesis?<|im_end|>\n<|
+10   100.0%  100/100         -  <|im_start|>user\nExplain recursion to a 5 year old.<|i
+11   100.0%  100/100         -  用中文解释什么是人工智能：
+12   100.0%  100/100         -  Expliquez en français le concept de la relativité génér
+
+No divergences found - 100% match across all prompts!
+
+Total wall time (generation only): 3444s (57.4min)
