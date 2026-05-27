@@ -114,6 +114,8 @@ handles chat completions cleanly.
 
 ## Files touched (outside the source repos)
 
+*The original work used these paths on the author's M4 Max — illustrative of the setup, not a layout you must reproduce; the portable artifacts are in [`src/`](src/).*
+
 - `~/models/Huihui-Qwen3.5-27B-abliterated-mlx-4bit/` — converted base (14 GB)
 - `~/mlx-fork/mtp_weights_huihui.safetensors` — extracted MTP head (265 MB)
 - `~/mlx-fork/mtp_weights.safetensors` → symlink, toggles vanilla/huihui

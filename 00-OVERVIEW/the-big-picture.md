@@ -6,6 +6,11 @@
 > is still open. Every claim links to the canonical doc that owns the detail (and the
 > numbers). For the vocabulary, keep [`glossary.md`](glossary.md) open; for the cited
 > numbers, [`results.md`](results.md).
+>
+> **This is a portable technique, not a machine.** The arc below is hardware-agnostic;
+> the throughput numbers are anchored to whatever box each was measured on. Where you see
+> "M4 Max," read it as a **reference measurement platform**, not the place the work must
+> happen — production lives on datacenter GPU. See [`platform-scope.md`](platform-scope.md).
 
 ---
 

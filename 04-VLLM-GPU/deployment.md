@@ -123,7 +123,7 @@ Per-GPU expectations (`07-FRESH-INSTALL.md`): RTX 5090 ~140 single / ~450 batch4
 
 ## Part 2 — RTX 5090 on NixOS (host "captain")
 
-A persistent production box. SSH `ssh -p 2227 root@185.193.125.244`, local API
+A persistent production box. SSH `ssh -p <port> root@<your-host>` (original host/port redacted before publishing), local API
 `http://localhost:8001`, model name `qwen3.5-27b`, OpenAI-compatible. Public URL
 changes on reboot (Cloudflare tunnel) — find it via
 `journalctl -u cloudflared-tunnel | grep trycloudflare.com | tail -1`.

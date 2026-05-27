@@ -151,7 +151,7 @@ with MLX, runs entirely within the 34ms GPU forward window. (Earlier estimate ci
 compute / 10–22ms weight load.) Enables a **voting scheme**: two ANE MTP predictions
 (~4ms total) for free while the GPU runs the main forward; when both agree (64% of the time)
 skip the 38ms verification. Listed **priority 2**. Files: `~/models/mtp-head-ane.mlpackage`,
-`~/optimizations/qwen-mtp-inference/ane-mtp/`.
+`~/optimizations/qwen-mtp-inference/ane-mtp/` (author's M4 Max paths; external to this corpus).
 
 ### B.3 CPU SME offload
 

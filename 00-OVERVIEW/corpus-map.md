@@ -56,6 +56,7 @@ home**. The big ones:
 
 | I want… | Go to |
 |---|---|
+| **Where to run / what's portable** — M4 Max = reference, not a target; production = GPU | [`platform-scope.md`](platform-scope.md) |
 | **The model architecture** — 64-layer 3:1 hybrid, DeltaNet state, MTP head, dims | [`01-ARCHITECTURE/`](../01-ARCHITECTURE/) |
 | **Tensor shapes / HF→GGUF mapping** — what the converter strips, `ssm_*` names | [`01-ARCHITECTURE/tensor-layout-hf-to-gguf.md`](../01-ARCHITECTURE/tensor-layout-hf-to-gguf.md) |
 | **The 1.99× recipe** (llama.cpp) — the env vars, the 5-prompt table, the K-sweep | [`02-LLAMACPP/the-recipe.md`](../02-LLAMACPP/the-recipe.md) |

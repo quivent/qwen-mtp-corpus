@@ -16,10 +16,14 @@ design). Read §0 first; it changes how you read the rest.
 Earlier docs in this corpus assumed the MLX speedup proved per-position trained heads work.
 That assumption was **wrong** and is corrected here. The evidence:
 
-- The MLX safetensors `~/mlx-fork/mtp_weights_vanilla.safetensors` contains exactly **one**
+- The MLX safetensors `~/mlx-fork/mtp_weights_vanilla.safetensors` (author's machine; the
+  weights blob is not in this corpus — see [`../99-LEDGER/coverage-report.md`](../99-LEDGER/coverage-report.md)
+  — but the in-corpus extraction script that produces it lives at
+  [`../03-MLX/src/extract_weights.py`](../03-MLX/src/extract_weights.py)) contains exactly **one**
   MTP block: `mtp.layers.0.*` (self-attn, MLP, norms, `mtp.fc` eh-projection). There is no
   `mtp.layers.1` or higher. Same single head as the llama.cpp GGUF.
-- The 1.68× on MLX comes from `~/optimizations/qwen-mtp-inference/stacked_v2/stacked_v2.py`,
+- The 1.68× on MLX comes from `~/optimizations/qwen-mtp-inference/stacked_v2/stacked_v2.py`
+  (author's machine; not in this corpus — see [`../99-LEDGER/coverage-report.md`](../99-LEDGER/coverage-report.md)),
   a **stacked speculative decoding** runtime strategy, not new weights:
   1. **Chained recurrent application of the single MTP head** — feed the head's own output
      hidden as the next step's `prev_hidden`. The *same* head is called K times; each call

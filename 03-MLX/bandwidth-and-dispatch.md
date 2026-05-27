@@ -233,7 +233,7 @@ types, so it should (and did) convert.
 This enables a voting scheme: two ANE MTP predictions (~4 ms total) free while the GPU
 runs the main forward; when both agree (~64% of the time), skip the 38 ms verification.
 Files: `~/models/mtp-head-ane.mlpackage`, `~/optimizations/qwen-mtp-inference/ane-mtp/`
-(external to corpus). Priority-2 frontier (enables deeper speculation at zero cost).
+(author's M4 Max paths; external to this corpus). Priority-2 frontier (enables deeper speculation at zero cost).
 
 ### CPU SME offload (smaller win)
 M4 replaced AMX with ARM SME (12 P-cores × ~2 TFLOPS ≈ 24 TFLOPS FP32). `mx.stream(mx.cpu)`

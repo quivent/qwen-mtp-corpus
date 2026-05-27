@@ -16,12 +16,17 @@
 
 ## 1. Headline — best result per platform
 
-| Platform | Hardware | Model + quant | Best tok/s | Speedup | Method | Source |
-|---|---|---|---:|---|---|---|
-| **llama.cpp** | M4 Max (546 GB/s) | Qwen3.5-27B Q4_K_M | **13.98** | **1.99× over K=1 vanilla** (= 0.78× of plain decode 17.90) | Chained recurrent MTP + confidence gating (`MTP_CHAIN_KMAX=2 MTP_CHAIN_THRESH=0.85`) | `02-LLAMACPP/the-recipe.md`, `02-LLAMACPP/README.md` |
-| **MLX** | M4 Max (546 GB/s) | Qwen3.5-27B-4bit (13.7 GB) | **51.1** | **1.73× over stock 29.5** | Adaptive MTP confidence chain + batch verify (threshold=0.8, max_chain=2) | `03-MLX/README.md`, `03-MLX/the-journey.md` |
-| **vLLM** | GH200 480GB | Qwen3.5-27B W4A16 | **186** (batch=1) / **1030** (batch=8) | **5.54× batch** (+454% aggregate); 186 is baseline | Stock MTP spec=7 | `04-VLLM-GPU/README.md` (`vllm-patches-benchmarks.md`) |
-| **vLLM** | RTX 5090 (32 GB) | Qwen3.5-27B GPTQ W4A16 (Huihui abliterated) | **151** (single 256 tok) | — (51% MTP accept; 347 batch=4) | GPTQ W4A16 + MTP=5 | `04-VLLM-GPU/README.md`, `04-VLLM-GPU/quantization.md` |
+> **Platform roles.** Production/highest-throughput work is the **datacenter-GPU (vLLM)**
+> rows; the **M4 Max rows are a reference measurement platform**, not a target — see
+> [`platform-scope.md`](platform-scope.md). Numbers are anchored to the box each was
+> measured on and are not comparable across rows.
+
+| Platform | Role | Hardware | Model + quant | Best tok/s | Speedup | Method | Source |
+|---|---|---|---|---:|---|---|---|
+| **vLLM** | production | GH200 480GB | Qwen3.5-27B W4A16 | **186** (batch=1) / **1030** (batch=8) | **5.54× batch** (+454% aggregate); 186 is baseline | Stock MTP spec=7 | `04-VLLM-GPU/README.md` (`vllm-patches-benchmarks.md`) |
+| **vLLM** | single-box | RTX 5090 (32 GB) | Qwen3.5-27B GPTQ W4A16 (Huihui abliterated) | **151** (single 256 tok) | — (51% MTP accept; 347 batch=4) | GPTQ W4A16 + MTP=5 | `04-VLLM-GPU/README.md`, `04-VLLM-GPU/quantization.md` |
+| **llama.cpp** | portable | reference: M4 Max (546 GB/s) | Qwen3.5-27B Q4_K_M | **13.98** | **1.99× over K=1 vanilla** (= 0.78× of plain decode 17.90) | Chained recurrent MTP + confidence gating (`MTP_CHAIN_KMAX=2 MTP_CHAIN_THRESH=0.85`) | `02-LLAMACPP/the-recipe.md`, `02-LLAMACPP/README.md` |
+| **MLX** | reference | M4 Max (546 GB/s) | Qwen3.5-27B-4bit (13.7 GB) | **51.1** | **1.73× over stock 29.5** | Adaptive MTP confidence chain + batch verify (threshold=0.8, max_chain=2) | `03-MLX/README.md`, `03-MLX/the-journey.md` |
 
 **Reading the cross-platform speedups.** Each platform's "speedup" is **relative
 to that platform's own baseline** — they are not comparable across rows. The

@@ -1,10 +1,17 @@
-# 03 — MLX / Apple Silicon track
+# 03 — MLX / Apple Silicon (reference platform)
+
+> **Scope.** This domain is an **Apple-Silicon reference**: the techniques here are
+> portable (the MTP head, self-speculative decoding, split-recurrence rollback, chained
+> confidence gating all apply on any backend), but the *numbers* below were **measured on
+> one M4 Max** and are documented as reference data — not a target you must run on. For
+> production, see [`../04-VLLM-GPU/`](../04-VLLM-GPU/) (datacenter GPU); for the
+> hardware-portability picture see [`../00-OVERVIEW/platform-scope.md`](../00-OVERVIEW/platform-scope.md).
 
 Optimizing **Qwen3.5-27B-4bit** inference on a single **Apple M4 Max** (16-core GPU,
 128 GB unified memory, 546 GB/s bandwidth), starting from stock `mlx_lm` and pushing to
 the bandwidth wall.
 
-**Headline: 29.5 tok/s stock → 51.1 tok/s (1.73×).**
+**Headline (this reference platform): 29.5 tok/s stock → 51.1 tok/s (1.73×).**
 
 This is the first working **MTP (Multi-Token Prediction) inference** for Qwen3.5 in
 Python. Every other framework — MLX's own converter, HuggingFace transformers, vLLM —

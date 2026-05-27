@@ -3,7 +3,7 @@
 ## The Server
 
 - **Machine**: "captain" — a NixOS PC with an NVIDIA RTX 5090 (32 GB VRAM)
-- **SSH**: `ssh -p 2227 root@185.193.125.244`
+- **SSH**: `ssh -p <port> root@<your-host>` (the original host/port were redacted before publishing — substitute your own)
 - **Public URL**: Changes on reboot. Find it with:
   ```bash
   journalctl -u cloudflared-tunnel --no-pager -n 20 | grep trycloudflare.com | tail -1

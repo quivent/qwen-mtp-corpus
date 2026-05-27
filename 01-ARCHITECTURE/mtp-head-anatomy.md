@@ -105,7 +105,7 @@ inputs: h_t  = main model last hidden state at position t   [B, 1, 5120]
 > itself just needs to expose the pre-norm hidden.)
 
 ### llama.cpp graph notes (`qwen35.cpp build_mtp_head`)
-The GGML port mirrors the MLX reference (`~/mlx-fork/fused_gdn.py MTPHead`) tensor-for-tensor:
+The GGML port mirrors the MLX reference (the in-corpus copy: [`../03-MLX/src/mtp_head.py`](../03-MLX/src/mtp_head.py), with the fused-kernel variant in [`../03-MLX/src/fused_gdn.py`](../03-MLX/src/fused_gdn.py) `MTPHead`) tensor-for-tensor:
 `hnorm(h)`, `enorm(e)`, `concat[e;h]`, `eh_proj`, then a gated self-attention block using the
 backbone's `wq/wk/wv/wo` (with the `*2` Q/gate split), `attn_q_norm`/`attn_k_norm`, the dense
 `ffn_gate/up/down` (SiLU), `shared_head_norm`, and finally `shared_head_head` (or main

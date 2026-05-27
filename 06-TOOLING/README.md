@@ -14,6 +14,15 @@ artifacts it drives live in sibling domains:
 - vLLM patches it applies → [`../04-VLLM-GPU/patches/`](../04-VLLM-GPU/patches/)
 - deploy scripts that overlap its job → [`../04-VLLM-GPU/deploy/`](../04-VLLM-GPU/deploy/)
 
+> **Note on `~/...` paths in this document.** Every `~/qwen-ops/`, `~/llama.cpp`,
+> `~/vllm`, and `~/models` path below is the CLI's **hard-coded default from the
+> original author's machine**. They are **not requirements of this corpus** —
+> override them with the documented flags (`--llama-cpp-dir`, `--vllm-dir`,
+> `-m/--model`, `-d/--dir`) or repoint them to the corpus folders (see the
+> **[Path assumptions](#path-assumptions-important-for-reuse)** mapping table
+> below). Treat these paths as overridable defaults, never as an instruction to
+> operate on one specific machine.
+
 ---
 
 ## Narrative — what the tool is for
