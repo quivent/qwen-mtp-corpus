@@ -1,30 +1,50 @@
-# MTP — Multi-Token Prediction speculative decoding for Qwen3.5-27B
+<div align="center">
+
+```
+  ___  __  __ _____ ____  
+ / _ \|  \/  |_   _|  _ \ 
+| | | | |\/| | | | | |_) |
+| |_| | |  | | | | |  __/ 
+ \__\_\_|  |_| |_| |_|    
+    C O R P U S
+```
+
+**Distilled, lossless corpus of MTP speculative decoding.**
+
+*Synthesized from 10 source repositories into one navigable whole for Qwen3.5-27B.*
+
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+</div>
+
+---
+
+## 📑 Table of Contents
+- [🎯 Overview](#-overview)
+- [📊 Headline Results](#-headline-results)
+- [🗺️ The Map](#️-the-map)
+- [📖 Quick Start Guide](#-quick-start-guide)
+- [🏗️ How This Corpus Was Built](#️-how-this-corpus-was-built)
+- [📦 Self-containment](#-self-containment)
+
+---
+
+## 🎯 Overview
 
 > **Build v1.0 · 2026-05-27** · lossless **211/211** source files · **0** broken links · audit **0.98/1.00** ✅
 > Built via `/iterate` (5 iterations × 5 parallel Opus agents). Full report: [`99-LEDGER/AUDIT-REPORT.md`](99-LEDGER/AUDIT-REPORT.md).
 
-This is the **distilled, lossless, reorganized corpus** of the Multi-Token Prediction
-(MTP) speculative-decoding research for **Qwen3.5-27B**, synthesized from **10 source
-repositories** into one navigable whole. The subject is a **portable technique**:
-Qwen3.5-27B ships a trained MTP head that is a built-in self-drafter, and this corpus is
-the record of getting that head to actually accelerate decoding on a hybrid (DeltaNet +
-attention) model that breaks the usual speculative-decoding assumptions.
+This is the **distilled, lossless, reorganized corpus** of the Multi-Token Prediction (MTP) speculative-decoding research for **Qwen3.5-27B**. 
 
-The work spans three inference stacks: **vLLM** on datacenter GPU (the production /
-highest-throughput path), **llama.cpp** (portable CPU/GPU — where the recipe and the
-session-eating bug were worked out), and **MLX** on Apple Silicon (a **reference** platform
-where the architecture was reverse-engineered and bandwidth-profiled). Every unique fact,
-number, tensor name, env var, dead-end, and code artifact was carried across, de-duplicated
-to a single source of truth, and re-layered so a researcher can read the story top-down and
-an engineer can rebuild the result bottom-up.
+The work spans three inference stacks: **vLLM**, **llama.cpp**, and **MLX**. Every unique fact, number, tensor name, env var, dead-end, and code artifact was carried across, de-duplicated to a single source of truth, and re-layered so a researcher can read the story top-down and an engineer can rebuild the result bottom-up.
 
-> **Platform scope (read before assuming "where to run").** The technique is
-> hardware-agnostic; the *numbers* are anchored to the box each was measured on. The
-> **M4 Max is a reference measurement platform, not a target** — don't default to it (or
-> any single machine) when acting on this corpus; production work belongs on datacenter
-> GPU. Full portability picture: [`00-OVERVIEW/platform-scope.md`](00-OVERVIEW/platform-scope.md).
+> [!WARNING]
+> **Platform scope (read before assuming "where to run").** The technique is hardware-agnostic; the *numbers* are anchored to the box each was measured on. The **M4 Max is a reference measurement platform, not a target** — don't default to it. Production work belongs on datacenter GPU. Full portability picture: [`00-OVERVIEW/platform-scope.md`](00-OVERVIEW/platform-scope.md).
 
-## Headline results (best per platform)
+---
+
+## 📊 Headline Results
 
 | Platform | Role | Hardware | Best tok/s | Speedup | Method |
 |---|---|---|---:|---|---|
@@ -33,66 +53,52 @@ an engineer can rebuild the result bottom-up.
 | **llama.cpp** | portable | reference: M4 Max (546 GB/s) | **13.98** | 1.99× over K=1 vanilla (= 0.78× of plain decode 17.90) | Chained recurrent MTP + confidence gating (`MTP_CHAIN_KMAX=2 MTP_CHAIN_THRESH=0.85`) |
 | **MLX** | reference | M4 Max (546 GB/s) | **51.1** | 1.73× over stock 29.5 | Adaptive MTP confidence chain + batch verify |
 
-> Each speedup is **relative to that platform's own baseline** — the rows are not
-> comparable across platforms. An honest caveat lives in the detail: on this bandwidth-
-> bound hybrid model, single-request MTP spec decode often *lost* to plain decode
-> (llama.cpp's best is still only 0.78× of plain), and on vLLM none of ~14 experimental
-> strategies beat stock MTP. The full cited breakdown — every configuration measured,
-> the apparent-contradiction disambiguations, and the hardware reference — is in
-> [`00-OVERVIEW/results.md`](00-OVERVIEW/results.md).
+> [!NOTE]
+> Each speedup is **relative to that platform's own baseline** — the rows are not comparable across platforms. The full cited breakdown is in [`00-OVERVIEW/results.md`](00-OVERVIEW/results.md).
 
-## The map — what is where
+---
+
+## 🗺️ The Map
 
 | Domain | One line | Entry |
 |---|---|---|
 | **00-OVERVIEW** | Synthesis layer: the story, the numbers, the vocabulary, the provenance map | [`00-OVERVIEW/`](00-OVERVIEW/) |
-| **01-ARCHITECTURE** | What Qwen3.5-27B *is* — the 64-layer 3:1 hybrid, the MTP head ("layer 64"), HF→GGUF tensor mapping, weight extraction | [`01-ARCHITECTURE/qwen35-hybrid-architecture.md`](01-ARCHITECTURE/qwen35-hybrid-architecture.md) |
-| **02-LLAMACPP** | The C++ port: 16 infra patches, 9 optimization variants, the bug that ate a session, and the 1.99× recipe | [`02-LLAMACPP/README.md`](02-LLAMACPP/README.md) |
-| **03-MLX** | Apple Silicon **(reference platform)**: kernel fusion, split-recurrence rollback, the bandwidth wall, 29.5 → 51.1 tok/s | [`03-MLX/README.md`](03-MLX/README.md) |
-| **04-VLLM-GPU** | Datacenter GPU: stock MTP serving, modal self-speculation, the precision saga, AWQ/GPTQ quant, deploy runbooks | [`04-VLLM-GPU/README.md`](04-VLLM-GPU/README.md) |
-| **05-THEORY-AND-DESIGNS** | Why spec-decode is hard on a recurrent hybrid, the rollback technique, per-position heads, training, research frontiers | [`05-THEORY-AND-DESIGNS/speculative-decoding-on-hybrid-models.md`](05-THEORY-AND-DESIGNS/speculative-decoding-on-hybrid-models.md) |
-| **06-TOOLING** | The `qwen-ops` Go CLI — download → patch → serve → bench → status, one box | [`06-TOOLING/README.md`](06-TOOLING/README.md) |
-| **99-LEDGER** | Provenance proof, the losslessness coverage report, and the open-questions registry | [`99-LEDGER/provenance.md`](99-LEDGER/provenance.md) |
-
-## If you read one thing
-
-- **The story** — start at [`00-OVERVIEW/the-big-picture.md`](00-OVERVIEW/the-big-picture.md).
-  The whole arc, readable straight through, linking out to the canonical docs for depth.
-- **The vocabulary** — [`00-OVERVIEW/glossary.md`](00-OVERVIEW/glossary.md) defines every
-  term (MTP, DeltaNet, eh_proj, split-recurrence, confidence gating, the O(1) ceiling…)
-  with a pointer to the doc that owns it.
-- **The numbers** — [`00-OVERVIEW/results.md`](00-OVERVIEW/results.md) is the single
-  authoritative benchmark table, every value cited to its source.
-- **Where everything came from** — [`00-OVERVIEW/corpus-map.md`](00-OVERVIEW/corpus-map.md)
-  maps the 10 source repos to the 6 domains and answers "where do I find X?".
-- **Where to run / what's portable** — [`00-OVERVIEW/platform-scope.md`](00-OVERVIEW/platform-scope.md)
-  separates the portable technique from the per-machine measurements (M4 Max = reference,
-  not a target) so agents don't default to one box.
-
-## How this corpus was built
-
-Built over **5 iterations** by a team of parallel distillation agents (one per domain),
-under a shared contract ([`_meta/CONVENTIONS.md`](_meta/CONVENTIONS.md)): iteration 1 laid
-the skeleton and first-pass distillation; iterations 2–3 did deep distillation, artifact
-consolidation, and ruthless cross-domain de-duplication; iteration 4 added this synthesis
-layer (overview + front door + losslessness ledger); iteration 5 is the final audit.
-
-The build is **lossless and verified**: every source file was enumerated, distilled or
-copied, and accounted for — **211 of 211 in-scope source files are represented (100%), 0
-missing**. The full proof, including the de-dup collapses and the handful of
-intentionally-not-copied boilerplate files, is in
-[`99-LEDGER/coverage-report.md`](99-LEDGER/coverage-report.md); the exhaustive
-source → destination audit trail is in [`99-LEDGER/provenance.md`](99-LEDGER/provenance.md).
-
-## Self-containment
-
-`MTP/` is self-contained: all unique small artifacts (patches, scripts, kernels, logs, the
-MTP-specific fork source files) are **copied in** under their domain folders. The single
-exception is the **383 MB upstream llama.cpp fork tree** (`../llama-mtp/`), which is
-mostly stock llama.cpp and is **referenced by path** rather than copied — only its ~9
-MTP-specific source files were copied into [`02-LLAMACPP/source/`](02-LLAMACPP/source/).
-See [`99-LEDGER/provenance.md`](99-LEDGER/provenance.md) §0 for that exception.
+| **01-ARCHITECTURE** | What Qwen3.5-27B *is* — the 64-layer 3:1 hybrid, the MTP head | [`01-ARCHITECTURE/qwen35-hybrid-architecture.md`](01-ARCHITECTURE/qwen35-hybrid-architecture.md) |
+| **02-LLAMACPP** | The C++ port: 16 infra patches, 9 optimization variants | [`02-LLAMACPP/README.md`](02-LLAMACPP/README.md) |
+| **03-MLX** | Apple Silicon: kernel fusion, split-recurrence rollback | [`03-MLX/README.md`](03-MLX/README.md) |
+| **04-VLLM-GPU** | Datacenter GPU: stock MTP serving, AWQ/GPTQ quant, deploy runbooks | [`04-VLLM-GPU/README.md`](04-VLLM-GPU/README.md) |
+| **05-THEORY-AND-DESIGNS** | Why spec-decode is hard on a recurrent hybrid | [`05-THEORY-AND-DESIGNS/speculative-decoding-on-hybrid-models.md`](05-THEORY-AND-DESIGNS/speculative-decoding-on-hybrid-models.md) |
+| **06-TOOLING** | The `qwen-ops` Go CLI — download → patch → serve → bench | [`06-TOOLING/README.md`](06-TOOLING/README.md) |
+| **99-LEDGER** | Provenance proof, the losslessness coverage report | [`99-LEDGER/provenance.md`](99-LEDGER/provenance.md) |
 
 ---
-*Front door for the `MTP/` corpus. The synthesis layer (this README + `00-OVERVIEW/`) only
-links and summarizes; each domain doc owns its own numbers.*
+
+## 📖 Quick Start Guide
+
+- **The story** — start at [`00-OVERVIEW/the-big-picture.md`](00-OVERVIEW/the-big-picture.md).
+- **The vocabulary** — [`00-OVERVIEW/glossary.md`](00-OVERVIEW/glossary.md) defines every term.
+- **The numbers** — [`00-OVERVIEW/results.md`](00-OVERVIEW/results.md) is the single authoritative benchmark table.
+- **Where everything came from** — [`00-OVERVIEW/corpus-map.md`](00-OVERVIEW/corpus-map.md) maps the 10 source repos.
+- **Where to run / what's portable** — [`00-OVERVIEW/platform-scope.md`](00-OVERVIEW/platform-scope.md).
+
+---
+
+## 🏗️ How This Corpus Was Built
+
+Built over **5 iterations** by a team of parallel distillation agents under a shared contract:
+1. Skeleton and first-pass distillation
+2. Deep distillation and artifact consolidation
+3. Ruthless cross-domain de-duplication
+4. Synthesis layer addition
+5. Final audit
+
+The build is **lossless and verified**: 211 of 211 in-scope source files are represented (100%), 0 missing. Full proof in [`99-LEDGER/coverage-report.md`](99-LEDGER/coverage-report.md).
+
+---
+
+## 📦 Self-containment
+
+`MTP/` is self-contained: all unique small artifacts are copied in under their domain folders. The single exception is the **383 MB upstream llama.cpp fork tree**, referenced by path rather than copied.
+
+---
+*Front door for the `MTP/` corpus. The synthesis layer only links and summarizes; each domain doc owns its own numbers.*
